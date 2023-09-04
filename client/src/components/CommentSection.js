@@ -1,17 +1,17 @@
 import React from 'react';
 
-const CommentSection = ({ comments }) => {
+const CommentSection = ({ comments = [] }) => { // Default value added for comments
     return (
-        <div className="comment-section">
+        <section className="comment-section"> {/* Changed to semantic <section> tag */}
             <h3>Comments</h3>
             <ul>
                 {comments.map(comment => (
                     <li key={comment.id}>
-                        {comment.author}: {comment.text}
+                        <strong>{comment.author}</strong>: {comment.text} {/* Added <strong> tag for emphasis */}
                     </li>
                 ))}
             </ul>
-        </div>
+        </section>
     );
 };
 

@@ -12,11 +12,18 @@ class ErrorBoundary extends Component {
 
     componentDidCatch(error, info) {
         console.error("Caught an error:", error, info);
+        // Consider reporting the error to an error tracking service
+        // e.g., sendErrorToService(error, info);
     }
 
     render() {
         if (this.state.hasError) {
-            return <h1>Something went wrong.</h1>;
+            return (
+                <div>
+                    <h1>Oops! Something went wrong.</h1>
+                    <p>We're sorry for the inconvenience. Please try refreshing the page or contact support if the issue persists.</p>
+                </div>
+            );
         }
         return this.props.children;
     }

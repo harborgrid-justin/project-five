@@ -1,17 +1,21 @@
 import React from 'react';
 
-const ActivityFeed = ({ activities }) => {
+const ActivityFeed = ({ activities = [] }) => { // Default value added for activities
     return (
-        <div className="activity-feed">
+        <section className="activity-feed"> {/* Changed to semantic <section> tag */}
             <h3>Recent Activities</h3>
             <ul>
                 {activities.map(activity => (
                     <li key={activity.id}>
-                        {activity.description} - {new Date(activity.date).toLocaleDateString()}
+                        {/* Sanitize activity.description if it's user-generated */}
+                        {activity.description} 
+                        <time dateTime={activity.date}> {/* Added semantic <time> tag */}
+                            - {new Date(activity.date).toLocaleDateString()}
+                        </time>
                     </li>
                 ))}
             </ul>
-        </div>
+        </section>
     );
 };
 

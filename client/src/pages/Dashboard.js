@@ -6,10 +6,14 @@ const Dashboard = () => {
     const { projects } = useDashboard();
 
     return (
-        <div>
+        <section> {/* Changed to semantic <section> tag */}
             <h2>Dashboard</h2>
-            <ProjectList projects={projects} />
-        </div>
+            {projects && projects.length > 0 ? (
+                <ProjectList projects={projects} />
+            ) : (
+                <p>No projects available. Start by creating a new project.</p> {/* Added empty state message */}
+            )}
+        </section>
     );
 };
 
