@@ -5,6 +5,7 @@ exports.getRecentActivities = async (req, res) => {
         const activities = await Activity.find().sort({ date: -1 }).limit(10);
         res.status(200).json(activities);
     } catch (error) {
+        console.error("Error fetching recent activities:", error); // Log the error
         res.status(500).json({ message: 'Error fetching recent activities' });
     }
 };

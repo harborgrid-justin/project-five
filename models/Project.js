@@ -12,7 +12,10 @@ const projectSchema = new mongoose.Schema({
     },
     startDate: Date,
     endDate: Date,
-    members: [String]
+    members: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 });
 
 const Project = mongoose.model('Project', projectSchema);
