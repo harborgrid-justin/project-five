@@ -15,6 +15,7 @@ exports.authenticate = (req, res, next) => {
         req.userId = decoded.userId;
         next();
     } catch (error) {
+        console.error("Token verification error:", error); // Log the error
         if (error.name === 'TokenExpiredError') {
             return res.status(401).send({ message: 'Token has expired' });
         }

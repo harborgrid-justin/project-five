@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -10,15 +11,19 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        trim: true,
-        match: [/\S+@\S+\.\S+/, 'Please use a valid email address'] // Email validation
+        trim: true
     },
     password: {
         type: String,
         required: true
     }
-}, {
-    timestamps: true // Automatically create 'createdAt' and 'updatedAt' fields
+});
+
+userSchema.pre('save', async function(next) {
+    if (this.isModified('password')) {
+        this.password = await bcrypt.hash(this.password, 10);
+    }
+    next();
 });
 
 const User = mongoose.model('User', userSchema);

@@ -10,7 +10,15 @@ const projectSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    startDate: Date,
+    startDate: {
+        type: Date,
+        validate: {
+            validator: function(value) {
+                return !this.endDate || value <= this.endDate;
+            },
+            message: 'Start date must be before end date'
+        }
+    },
     endDate: Date,
     members: [{
         type: mongoose.Schema.Types.ObjectId,
