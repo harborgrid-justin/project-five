@@ -1,5 +1,5 @@
 module.exports = (err, req, res, next) => {
-  console.error(err.stack);
+  console.error(`Error occurred during ${req.method} request to ${req.url} from ${req.headers['user-agent']}:`, err.stack);
 
   if (err.name === 'ValidationError') {
       return res.status(400).send({ message: 'Validation error occurred!' });
