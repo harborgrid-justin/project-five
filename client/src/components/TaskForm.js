@@ -1,37 +1,35 @@
 import React, { useState } from 'react';
+import api from '../utils/api';
 
-const TaskForm = ({ onSubmit }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+const TaskForm = () => {
+    const [task, setTask] = useState({ title: '', description: '' });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit({ title, description });
-    setTitle('');
-    setDescription('');
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await api.post('/tasks', task);
+            setTask({ title: '', description: '' });
+        } catch (error) {
+            console.error('Error creating task', error);
+        }
+    };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Title:</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Description:</label>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </div>
-      <button type="submit">Add Task</button>
-    </form>
-  );
+    return (
+        <form onSubmit={handleSubmit}>
+            <input 
+                type="text" 
+                placeholder="Task Title" 
+                value={task.title} 
+                onChange={e => setTask({ ...task, title: e.target.value })} 
+            />
+            <textarea 
+                placeholder="Task Description" 
+                value={task.description} 
+                onChange={e => setTask({ ...task, description: e.target.value })} 
+            />
+            <button type="submit">Add Task</button>
+        </form>
+    );
 };
 
 export default TaskForm;

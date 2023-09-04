@@ -1,38 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import useProfile from '../hooks/useProfile';
 
-const Profile = ({ userId }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const Profile = () => {
+    const { user } = useProfile();
 
-  useEffect(() => {
-    fetch(`/api/users/${userId}`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch user profile');
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setUser(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, [userId]);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
-  return (
-    <div>
-      <h1>Profile</h1>
-      <p>Username: {user.username}</p>
-      <p>Role: {user.role}</p>
-    </div>
-  );
+    return (
+        <div>
+            <h2>User Profile</h2>
+            <p>Name: {user.name}</p>
+            <p>Email: {user.email}</p>
+        </div>
+    );
 };
 
 export default Profile;

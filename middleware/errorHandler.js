@@ -1,15 +1,4 @@
-const logger = require('../services/loggerService');
-
-const errorHandler = (err, req, res, next) => {
-  logger.error(`Error occurred: ${err.message}`);
-  
-  // Handle specific error types as needed
-  if (err.name === 'ValidationError') {
-    return res.status(400).json({ message: err.message });
-  }
-
-  // Generic error response
-  res.status(500).json({ message: 'Internal Server Error' });
+module.exports = (err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send({ message: 'An unexpected error occurred!' });
 };
-
-module.exports = errorHandler;

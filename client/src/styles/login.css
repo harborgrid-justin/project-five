@@ -1,0 +1,16 @@
+.login {
+    padding: 2rem;
+    background-color: #f4f4f4;
+}
+
+.login h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.login form {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}

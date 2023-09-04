@@ -1,29 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import api from '../utils/api';
 
-const useTasks = (projectId) => {
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const useTasks = () => {
+    const [tasks, setTasks] = useState([]);
 
-  useEffect(() => {
-    fetch(`/api/projects/${projectId}/tasks`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch tasks');
+    const fetchTasks = async () => {
+        try {
+            const response = await api.get('/tasks');
+            setTasks(response.data);
+        } catch (error) {
+            console.error('Error fetching tasks', error);
         }
-        return res.json();
-      })
-      .then((data) => {
-        setTasks(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, [projectId]);
+    };
 
-  return { tasks, loading, error };
+    return { tasks, fetchTasks };
 };
 
 export default useTasks;

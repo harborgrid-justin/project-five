@@ -1,14 +1,9 @@
 const express = require('express');
 const taskController = require('../controllers/taskController');
-const { authenticate } = require('../middleware/security');
-
+const attachmentController = require('../controllers/attachmentController');
 const router = express.Router();
 
-router.use(authenticate); // Ensure all task routes are authenticated
-
-router.post('/', taskController.createTask);
-router.get('/:taskId', taskController.getTask);
-router.put('/:taskId', taskController.updateTask);
-router.delete('/:taskId', taskController.deleteTask);
+router.get('/tasks/:taskId', taskController.getTaskDetails);
+router.post('/tasks/:taskId/attachments', attachmentController.uploadAttachment);
 
 module.exports = router;

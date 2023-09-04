@@ -1,31 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import useDashboard from '../hooks/useDashboard';
 import ProjectList from '../components/ProjectList';
-import TaskForm from '../components/TaskForm';
 
 const Dashboard = () => {
-  const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState(null);
+    const { projects } = useDashboard();
 
-  useEffect(() => {
-    // Fetch projects for the user
-    fetch('/api/projects')
-      .then(res => res.json())
-      .then(data => setProjects(data))
-      .catch(error => console.error('Error fetching projects:', error));
-  }, []);
-
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <ProjectList projects={projects} onSelect={setSelectedProject} />
-      {selectedProject && (
+    return (
         <div>
-          <h2>Tasks for {selectedProject.name}</h2>
-          <TaskForm projectId={selectedProject._id} />
+            <h2>Dashboard</h2>
+            <ProjectList projects={projects} />
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default Dashboard;

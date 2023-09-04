@@ -1,24 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import api from '../utils/api';
 
-const useAuth = (initialToken) => {
-  const [token, setToken] = useState(initialToken);
-  const [isAuthenticated, setIsAuthenticated] = useState(!!initialToken);
+const useAuth = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    if (token) {
-      setIsAuthenticated(true);
-      localStorage.setItem('authToken', token);
-    } else {
-      setIsAuthenticated(false);
-      localStorage.removeItem('authToken');
-    }
-  }, [token]);
+    const login = async (credentials) => {
+        try {
+            const response = await api.post('/auth/login', credentials);
+            setIsAuthenticated(true);
+            // Handle token storage, etc.
+        } catch (error) {
+            console.error('Login error', error);
+        }
+    };
 
-  return {
-    token,
-    setToken,
-    isAuthenticated
-  };
+    const logout = () => {
+        // Handle logout logic, e.g., token removal, etc.
+        setIsAuthenticated(false);
+    };
+
+    return { isAuthenticated, login, logout };
 };
 
 export default useAuth;

@@ -1,29 +1,23 @@
 import { useState, useEffect } from 'react';
+import api from '../utils/api';
 
-const useNotifications = (userId) => {
-  const [notifications, setNotifications] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const useNotifications = () => {
+    const [notifications, setNotifications] = useState([]);
 
-  useEffect(() => {
-    fetch(`/api/users/${userId}/notifications`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch notifications');
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setNotifications(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, [userId]);
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            try {
+                const response = await api.get('/notifications');
+                setNotifications(response.data);
+            } catch (error) {
+                console.error('Error fetching notifications', error);
+            }
+        };
 
-  return { notifications, loading, error };
+        fetchNotifications();
+    }, []);
+
+    return { notifications };
 };
 
 export default useNotifications;

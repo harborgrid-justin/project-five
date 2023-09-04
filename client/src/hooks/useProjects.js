@@ -1,29 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import api from '../utils/api';
 
-const useProjects = (userId) => {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const useProjects = () => {
+    const [projects, setProjects] = useState([]);
 
-  useEffect(() => {
-    fetch(`/api/users/${userId}/projects`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch projects');
+    const fetchProjects = async () => {
+        try {
+            const response = await api.get('/projects');
+            setProjects(response.data);
+        } catch (error) {
+            console.error('Error fetching projects', error);
         }
-        return res.json();
-      })
-      .then((data) => {
-        setProjects(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, [userId]);
+    };
 
-  return { projects, loading, error };
+    return { projects, fetchProjects };
 };
 
 export default useProjects;
