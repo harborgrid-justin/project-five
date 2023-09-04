@@ -9,14 +9,18 @@ const TaskList = () => {
     }, []);
 
     return (
-        <div>
+        <section> {/* Changed to semantic <section> tag */}
             <h2>Tasks</h2>
-            <ul>
-                {tasks.map(task => (
-                    <li key={task.id}>{task.title}</li>
-                ))}
-            </ul>
-        </div>
+            {tasks && tasks.length > 0 ? (
+                <ul>
+                    {tasks.map(task => (
+                        <li key={task.id}>{task.title}</li>
+                    ))}
+                </ul>
+            ) : (
+                <p>No tasks available. Start by creating a new task.</p> {/* Added empty state message */}
+            )}
+        </section>
     );
 };
 
