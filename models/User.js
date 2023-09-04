@@ -10,12 +10,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        trim: true
+        trim: true,
+        match: [/\S+@\S+\.\S+/, 'Please use a valid email address'] // Email validation
     },
     password: {
         type: String,
         required: true
     }
+}, {
+    timestamps: true // Automatically create 'createdAt' and 'updatedAt' fields
 });
 
 const User = mongoose.model('User', userSchema);
